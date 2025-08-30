@@ -43,12 +43,14 @@ class MelodkeetTTSNode:
             clone_url = urlunparse((parsed_url.scheme, parsed_url.netloc, '/v1/voices', '', '', ''))
             
             headers = {"Authorization": f"Bearer {api_key}"}
-            data = {'library_name': library_name}
+            # --- FIX: Changed 'library_name' to 'voice_name' to match API ---
+            data = {'voice_name': library_name}
             
             print(f"[MelodkeetTTS - DEBUG] Attempting to clone voice. URL: {clone_url}, Library: '{library_name}'")
 
             with open(audio_path, 'rb') as f:
-                files = {'files': (os.path.basename(audio_path), f, 'audio/wav')}
+                # --- FIX: Changed 'files' to 'voice_file' to match API ---
+                files = {'voice_file': (os.path.basename(audio_path), f, 'audio/wav')}
                 response = requests.post(clone_url, headers=headers, data=data, files=files)
                 
                 # --- DIAGNOSTIC CHECK ---
